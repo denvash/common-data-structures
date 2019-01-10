@@ -3,20 +3,20 @@
 Everything written as part of some university assignment,
 The structures are well tested and without memory leaks.
 
-- AvlRankTree
+- **AvlRankTree**
   - The ranks are **Keys** with **Max** values.
-- AvlTree
+- **AvlTree**
   - *log(n)* complexity operations.
-- HashTable
+- **HashTable**
   - Implemented with AvlTree.
   - Dynamic
   - Chain Hashing.
-- IterableList
+- **IterableList**
   - Implements `==`,`!=`, and `Iterator` interface.
-- LinkedList
+- **LinkedList**
   - Doubly linked list.
-- MinHeap
+- **MinHeap**
   - Getting min in *O(1)* complexity.
-- SortedSet
+- **SortedSet**
   - Implemented as Linked list
-- UnionFind
+- **UnionFind**
