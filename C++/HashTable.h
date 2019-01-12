@@ -1,4 +1,4 @@
-#include "AVLTree.h"
+#include "AVLTree.hpp"
 
 #define nullptr 0
 #define EMPTY_SIZE 0
@@ -24,7 +24,7 @@ private:
 
     void init(AVLTree<int, Node> **array, int key, Value value);
 
-    void extend();
+    void resize(bool toShrink);
 
     void destroyHash();
 
@@ -90,7 +90,7 @@ void HashTable<Value>::insert(int key, const Value value) {
         init(initHash, key, value);
         hashTable = initHash;
     } else {
-        if (counter == size) { extend(); }
+        if (counter == size) { resize(false); }
         init(hashTable, key, value);
     }
     ++counter;
@@ -104,9 +104,11 @@ Value& HashTable<Value>::getValue(int key) {
 }
 
 template<class Value>
-void HashTable<Value>::extend() {
+void HashTable<Value>::resize(bool toShrink) {
     int prev_size = size;
-    size *= 2;
+
+    if (toShrink) size/=2;
+    else size*=2;
 
     auto new_hash = new AVLTree<int, Node> *[size];
     for (int i = 0; i < size; i++) { new_hash[i] = nullptr; }
@@ -142,6 +144,8 @@ void HashTable<Value>::remove(int key) {
     if (!containsKey(key)) return;
     AVLTree<int, Node> *tree = hashTable[hashFunction(key)];
     tree->remove(key);
+    counter--;
+    if (size >= 40 && counter == size / 4) { resize(true); }
 }
 
 template<class Value>
