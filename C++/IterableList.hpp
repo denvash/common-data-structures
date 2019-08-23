@@ -301,9 +301,6 @@ typename List<T>::Iterator List<T>::Iterator::operator++(int) {
 
 template<class T>
 typename List<T>::Iterator& List<T>::Iterator::operator--() {
-//    if (*this == list->end()){
-//        throw ElementNotFound();
-//    }
   current = current->previous;
   return *this;
 }

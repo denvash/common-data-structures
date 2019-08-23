@@ -1,33 +1,32 @@
-class UF {
-    int *id;
-    int *size;
+class UnionFind {
+    int *_id;
+    int *_size;
 
 public:
-    UF(int n) {
-        id = new int[n];
-        size = new int[n];
+    explicit UnionFind(int n) {
+        _id = new int[n];
+        _size = new int[n];
         for (int i = 0; i < n; i++) {
-            id[i] = i;
-            size[i] = 1;
+            _id[i] = i;
+            _size[i] = 1;
         }
     }
 
-    ~UF() {
-        delete[] id;
-        delete[] size;
+    ~UnionFind() {
+        delete[] _id;
+        delete[] _size;
     }
 
     int find(int x) {
 
         int root = x;
         // Find root
-        while (root != id[root])
-            root = id[root];
+        while (root != _id[root]) root = _id[root];
 
         // Compress path to root
         while (x != root) {
-            int temp = id[x];
-            id[x] = root;
+            int temp = _id[x];
+            _id[x] = root;
             x = temp;
         }
         return root;
@@ -39,12 +38,12 @@ public:
         if (i == j) return;
 
         // Make smaller root point to larger one
-        if (size[i] < size[j]) {
-            id[i] = j;
-            size[j] += size[i];
+        if (_size[i] < _size[j]) {
+            _id[i] = j;
+            _size[j] += _size[i];
         } else {
-            id[j] = i;
-            size[i] += size[j];
+            _id[j] = i;
+            _size[i] += _size[j];
         }
     }
 

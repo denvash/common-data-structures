@@ -2,7 +2,7 @@ datatype 'a AVLTree = Nil | Br of ((int*('a))*('a AVLTree)*('a AVLTree));
 
 datatype Balance = RR | LR | LL | RL;
 
-exception NotFound;  
+exception NotFound;
 
 (* val inorder = fn: ('a AVLTree)->`a list *)
 (* Time: O(n) *)
@@ -17,7 +17,7 @@ fun size Nil = 0
 (* val get = fn: ('a AVLTree*int)->`a *)
 (* Time: O(log n) *)
 fun get (Nil,_) = raise NotFound
-	| get ((Br ((k,v),lt,rt)),k_) = 
+	| get ((Br ((k,v),lt,rt)),k_) =
 		case Int.compare(k,k_) of
         LESS => get(lt,k_)
       | EQUAL => v
@@ -62,7 +62,7 @@ in
 	fun rotate Nil _ = Nil
 		| rotate tree MODE =
 
-			case MODE of 
+			case MODE of
 				  RR => rotate_right tree
 				| RL => rotate_left ( rotate_right tree )
 				| LL => rotate_left tree
@@ -74,7 +74,7 @@ in
 		| insert ( Br( node as (k,v) , l_tree ,r_tree ) , t_node as (t_k,t_v) ) =
 
 			case Int.compare(k,t_k) of
-					LESS => 
+					LESS =>
 						let
 							val n_l_tree as Br ((n_l_k,n_l_v),_,_) = insert(l_tree,t_node)
 							val n_tree = Br (node,n_l_tree,r_tree)
@@ -96,7 +96,7 @@ in
 						in
 							if height n_r_tree - height l_tree = 2
 								then
-									if t_k > n_r_k 
+									if t_k > n_r_k
 										then rotate n_tree RR
 									else rotate n_tree RL
 							else n_tree
@@ -111,15 +111,15 @@ in
         fun balance_right_left Nil = Nil
           | balance_right_left (Br(_,_,Nil)) = Nil
           | balance_right_left (t as Br(_ ,lt, Br(_ ,rlt, rrt))) =
-            if height rrt >= height rlt 
+            if height rrt >= height rlt
              then rotate t RR
             else rotate t LR
-        ; 
+        ;
 
         fun balance_left_right Nil = Nil
           | balance_left_right (Br(_,Nil,_)) = Nil
           | balance_left_right (t as Br(_, Br(_,llt, lrt), rt)) =
-                  if height llt >= height lrt 
+                  if height llt >= height lrt
                    then rotate t LL
                   else rotate t RL
         ;
@@ -150,19 +150,19 @@ in
             case (l_tree, r_tree) of
                 (Nil , _) => r_tree
               | (_,  Nil) => l_tree
-              |  _        => if height l_tree <= height r_tree 
-                            then 
-                              let 
+              |  _        => if height l_tree <= height r_tree
+                            then
+                              let
                                 val m as (m_k,_) = min r_tree
-                              in 
-                                Br(m, l_tree ,remove(r_tree, m_k)) 
+                              in
+                                Br(m, l_tree ,remove(r_tree, m_k))
                               end
 
-                            else 
+                            else
                               let
                                 val m as (m_k,_) = max l_tree
-                              in 
-                                Br(m, remove(l_tree, m_k), r_tree) 
+                              in
+                                Br(m, remove(l_tree, m_k), r_tree)
                               end
       end
   ;
